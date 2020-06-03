@@ -17,43 +17,73 @@ import java.util.Hashtable;
  *
  * @author kachu
  */
-public class Almacenamiento extends UnicastRemoteObject implements AlmacenamientoInterface{
+public class Almacenamiento extends UnicastRemoteObject implements AlmacenamientoInterface {
 
-   // private ArrayList<ArrayList> almacenamiento; 
+    // private ArrayList<ArrayList> almacenamiento; 
     Hashtable<String, String> almacenamiento = new Hashtable<String, String>();
 
-    public Almacenamiento(ArrayList<ArrayList> almacenamiento) throws RemoteException {
-        this.almacenamiento = almacenamiento;
+    public Almacenamiento() throws RemoteException {
     }
 
-    public Almacenamiento(ArrayList<ArrayList> almacenamiento, int port) throws RemoteException {
+    public Almacenamiento(int port) throws RemoteException {
         super(port);
-        this.almacenamiento = almacenamiento;
     }
 
-    public Almacenamiento(ArrayList<ArrayList> almacenamiento, int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
+    public Almacenamiento(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
-        this.almacenamiento = almacenamiento;
     }
 
-    public ArrayList<ArrayList> getAlmacenamiento() {
-        return almacenamiento;
-    }
-    
-    
     @Override
+    //0 para modificar, 1 para guardar uno nuevo y 2 error
     public int guardar(String clave, String valor) throws RemoteException {
-        
+        int retorno;
+        try {
+            if (almacenamiento.containsKey(clave)) {
+                almacenamiento.replace(clave, valor);
+                retorno = 0;
+            } else {
+                almacenamiento.put(clave, valor);
+                retorno = 1;
+            }
+
+        } catch (Exception e) {
+            retorno = 2;
+        }
+        return retorno;
     }
 
     @Override
+    //retornamos el valor de la clave si existe else error(2)
     public String obtener(String clave) throws RemoteException {
-        
-    }
-
-    @Override
-    public String eliminar(String clave) throws RemoteException {
+        try {
+            if(almacenamiento.containsKey(clave)){
+                 return almacenamiento.get(clave);
+            }
+            else {
+                return "2";
+            }
+        } catch (Exception e) {
+            return e.getMessage();
+        }
        
     }
-    
+
+    @Override
+    //si elimina retorna valor else retorna error(2)
+    public String eliminar(String clave) throws RemoteException {
+        String aux;
+        try {
+            if(almacenamiento.containsKey(clave)){
+                 aux = almacenamiento.get(clave);
+                 almacenamiento.remove(clave);
+                 return "eliminado " + aux;
+            }
+            else {
+                return "2";
+            }
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
 }

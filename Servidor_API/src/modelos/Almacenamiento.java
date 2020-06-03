@@ -32,23 +32,50 @@ public class Almacenamiento extends UnicastRemoteObject implements Almacenamient
     public Almacenamiento(int port, RMIClientSocketFactory csf, RMIServerSocketFactory ssf) throws RemoteException {
         super(port, csf, ssf);
     }
+    
+    public int validarClave(String clave){
+        //Controlamos que sea alfanumerico y pueda contener _
+        if (!(clave.matches("[a-zA-Z0-9_]"))){
+            if ((clave.length() >= 1) && (clave.length() <= 50)){
+                return 1;  
+            }else{
+                return 0;
+            }
+        }else{
+            return 0;
+        }
+    }
+    
+    public int validarValor(String valor){
+        //Casteamos el string a un array de bytes
+        byte[] b = valor.getBytes();
+        //Controlamos que ese array pese 1.5MB
+        if (b.length <= 1536){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 
     @Override
     //0 para modificar, 1 para guardar uno nuevo y 2 error
     public int guardar(String clave, String valor) throws RemoteException {
         int retorno;
-        try {
-            if (almacenamiento.containsKey(clave)) {
-                almacenamiento.replace(clave, valor);
-                retorno = 0;
-            } else {
-                almacenamiento.put(clave, valor);
-                retorno = 1;
+            if ((validarClave(clave) == 1) && (validarValor(valor) == 1)){
+                try {
+                if (almacenamiento.containsKey(clave)) {
+                    almacenamiento.replace(clave, valor);
+                    retorno = 0;
+                } else {
+                    almacenamiento.put(clave, valor);
+                    retorno = 1;
+                }
+                } catch (Exception e) {
+                    retorno = 2;
+                }
+            }else{
+                retorno = 2;
             }
-
-        } catch (Exception e) {
-            retorno = 2;
-        }
         return retorno;
     }
 
@@ -76,7 +103,7 @@ public class Almacenamiento extends UnicastRemoteObject implements Almacenamient
             if(almacenamiento.containsKey(clave)){
                  aux = almacenamiento.get(clave);
                  almacenamiento.remove(clave);
-                 return "eliminado " + aux;
+                 return "Esliminado " + aux;
             }
             else {
                 return "2";

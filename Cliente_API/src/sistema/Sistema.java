@@ -20,7 +20,7 @@ public class Sistema {
      
         //Estamos accediendo remotamente a almacenamiento que esta del lado del servidor
         AlmacenamientoInterface servidor = (AlmacenamientoInterface)
-        Naming.lookup("//localhost:15000/almacenamiento");
+        Naming.lookup("//localhost:15001/almacenamiento");
         
         System.out.println(servidor.guardar("Javi", "Trabado"));
         //System.out.println(servidor.guardar("javi", "Trabadito"));

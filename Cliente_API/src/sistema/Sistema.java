@@ -22,11 +22,24 @@ public class Sistema {
         AlmacenamientoInterface servidor = (AlmacenamientoInterface)
         Naming.lookup("//localhost:15001/almacenamiento");
         
-        System.out.println(servidor.guardar("Javi", "Trabado"));
-        //System.out.println(servidor.guardar("javi", "Trabadito"));
+        System.out.println(servidor.guardar("Javi","Trabado"));
+        System.out.println(servidor.guardar("Facu", "Gitano"));
         
         System.out.println(servidor.obtener("Javi"));
-        //System.out.println(servidor.obtener("javi"));
+        System.out.println(servidor.obtener("Facu"));
+        
+        //--------------
+        
+        //System.out.println(servidor.eliminar("Javi"));
+        System.out.println(servidor.guardar("Javi","Trabadito"));
+        System.out.println(servidor.guardar("Facu2", "Cambalachero"));
+        
+        
+        //------
+        
+        System.out.println(servidor.obtener("Javi"));
+        System.out.println(servidor.obtener("Facu"));
+        System.out.println(servidor.obtener("Facu2"));
         
     }
 }

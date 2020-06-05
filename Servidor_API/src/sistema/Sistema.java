@@ -52,11 +52,12 @@ public class Sistema {
                 //Registramos el puerto
                 LocateRegistry.createRegistry(puerto);
                 
-                AlmacenamientoInterface servidorPrincipal = (AlmacenamientoInterface) 
-                Naming.lookup("//"+ip+":15000"+"/almacenamiento");
-                
-                 //Indicamos como se accede a nuestra clase
-                Naming.rebind("//localhost:"+puerto+"/almacenamiento", servidorPrincipal);
+                while (true){
+                    AlmacenamientoInterface servidorPrincipal = (AlmacenamientoInterface) 
+                    Naming.lookup("//"+ip+":15000"+"/almacenamiento");
+                     //Indicamos como se accede a nuestra clase
+                    Naming.rebind("//localhost:"+puerto+"/almacenamiento", servidorPrincipal);
+                }
                 
             } catch (Exception e) {
                 System.out.println("Error el servicio no esta disponible");

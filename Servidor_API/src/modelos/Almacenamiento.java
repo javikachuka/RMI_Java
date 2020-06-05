@@ -12,6 +12,7 @@ import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.concurrent.*;
 
 /**
  *
@@ -20,7 +21,8 @@ import java.util.Hashtable;
 public class Almacenamiento extends UnicastRemoteObject implements AlmacenamientoInterface {
 
     // private ArrayList<ArrayList> almacenamiento; 
-    Hashtable<String, String> almacenamiento = new Hashtable<String, String>();
+    //Hashtable<String, String> almacenamiento = new Hashtable<String, String>();
+    ConcurrentHashMap almacenamiento = new ConcurrentHashMap();
 
     public Almacenamiento() throws RemoteException {
     }
@@ -84,7 +86,7 @@ public class Almacenamiento extends UnicastRemoteObject implements Almacenamient
     public String obtener(String clave) throws RemoteException {
         try {
             if(almacenamiento.containsKey(clave)){
-                 return almacenamiento.get(clave);
+                 return (String) almacenamiento.get(clave);
             }
             else {
                 return "2";
@@ -101,7 +103,7 @@ public class Almacenamiento extends UnicastRemoteObject implements Almacenamient
         String aux;
         try {
             if(almacenamiento.containsKey(clave)){
-                 aux = almacenamiento.get(clave);
+                 aux = (String) almacenamiento.get(clave);
                  almacenamiento.remove(clave);
                  return "Esliminado " + aux;
             }

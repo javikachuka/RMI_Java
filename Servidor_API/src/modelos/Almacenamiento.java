@@ -61,22 +61,22 @@ public class Almacenamiento extends UnicastRemoteObject implements Almacenamient
 
     @Override
     //0 para modificar, 1 para guardar uno nuevo y 2 error
-    public int guardar(String clave, String valor) throws RemoteException {
-        int retorno;
+    public String guardar(String clave, String valor) throws RemoteException {
+        String retorno;
             if ((validarClave(clave) == 1) && (validarValor(valor) == 1)){
                 try {
                 if (almacenamiento.containsKey(clave)) {
                     almacenamiento.replace(clave, valor);
-                    retorno = 0;
+                    retorno = "1";
                 } else {
                     almacenamiento.put(clave, valor);
-                    retorno = 1;
+                    retorno = "0";
                 }
                 } catch (Exception e) {
-                    retorno = 2;
+                    retorno = "2";
                 }
             }else{
-                retorno = 2;
+                retorno = "0 - error en formato.";
             }
         return retorno;
     }
@@ -89,7 +89,7 @@ public class Almacenamiento extends UnicastRemoteObject implements Almacenamient
                  return (String) almacenamiento.get(clave);
             }
             else {
-                return "2";
+                return "1 - clave no existe.";
             }
         } catch (Exception e) {
             return e.getMessage();
@@ -105,10 +105,10 @@ public class Almacenamiento extends UnicastRemoteObject implements Almacenamient
             if(almacenamiento.containsKey(clave)){
                  aux = (String) almacenamiento.get(clave);
                  almacenamiento.remove(clave);
-                 return "Esliminado " + aux;
+                 return aux;
             }
             else {
-                return "2";
+                return "2 - clave no existe";
             }
         } catch (Exception e) {
             return e.getMessage();

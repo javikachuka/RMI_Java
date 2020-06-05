@@ -60,14 +60,14 @@ public class Sistema {
                 }
                 
             } catch (Exception e) {
-                System.out.println("Error el servicio no esta disponible");
+                System.out.println("3 - instancia principal caída.");
                 System.exit(0);
             }
             
             
         } else {
             
-            System.out.println("Error en los parametros");
+            System.out.println("Error en los argumentos");
             System.exit(0);
         }
 

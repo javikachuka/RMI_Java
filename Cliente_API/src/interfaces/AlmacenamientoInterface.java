@@ -13,7 +13,7 @@ import java.rmi.RemoteException ;
  * @author kachu
  */
 public interface AlmacenamientoInterface extends Remote {
-    public int guardar(String clave, String valor) throws RemoteException;
+    public String guardar(String clave, String valor) throws RemoteException;
     public String obtener(String clave) throws RemoteException ;
     public String eliminar(String clave) throws RemoteException ;
 }

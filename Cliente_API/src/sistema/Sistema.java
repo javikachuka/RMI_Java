@@ -17,29 +17,49 @@ import java.rmi.RemoteException;
  */
 public class Sistema {
     public static void main(String[] args) throws NotBoundException, MalformedURLException, RemoteException {
-     
-        //Estamos accediendo remotamente a almacenamiento que esta del lado del servidor
-        AlmacenamientoInterface servidor = (AlmacenamientoInterface)
-        Naming.lookup("//localhost:15001/almacenamiento");
+        int puerto = 0;
         
-        System.out.println(servidor.guardar("Javi","Trabado"));
-        System.out.println(servidor.guardar("Facu", "Gitano"));
-        
-        System.out.println(servidor.obtener("Javi"));
-        System.out.println(servidor.obtener("Facu"));
-        
-        //--------------
-        
-        //System.out.println(servidor.eliminar("Javi"));
-        System.out.println(servidor.guardar("Javi","Trabadito"));
-        System.out.println(servidor.guardar("Facu2", "Cambalachero"));
-        
-        
-        //------
-        
-        System.out.println(servidor.obtener("Javi"));
-        System.out.println(servidor.obtener("Facu"));
-        System.out.println(servidor.obtener("Facu2"));
-        
-    }
+        if (args.length == 2){
+            try {
+                String ip = args[0];
+                puerto = Integer.parseInt(args[1]);
+                //Estamos accediendo remotamente a almacenamiento que esta del lado del servidor
+                AlmacenamientoInterface servidor = (AlmacenamientoInterface)
+                Naming.lookup("//"+ip+":"+puerto+"/almacenamiento");
+
+                //Se crean dos elementos
+                System.out.println(servidor.guardar("Clave1", "Valor1"));
+                System.out.println(servidor.guardar("Clave2", "Valor2"));
+
+                //Obtenemos los dos elementos
+                System.out.println(servidor.obtener("Clave1"));
+                System.out.println(servidor.obtener("Clave2"));
+
+                //Intentamos guardar
+                System.out.println(servidor.guardar("Clave1", "Nuevo valor1"));
+
+                //Obtenemos los dos elementos nuevamente
+                System.out.println(servidor.obtener("Clave1"));
+                System.out.println(servidor.obtener("Clave2"));
+
+                //Eliminamos el elemento con clave 2
+                System.out.println(servidor.eliminar("Clave2"));
+
+
+                //Obtenemos los dos elementos nuevamente
+                System.out.println(servidor.obtener("Clave1"));
+                System.out.println(servidor.obtener("Clave2"));
+
+                System.out.println("Cliente finalizando...");
+            
+            } catch (Exception e) {
+                System.out.println("4 - instancia principal caída ó error en el órden de los argumentos.");
+                System.exit(0);
+            }
+        }else{
+            System.out.println("Error en los argumentos");
+            System.exit(0);
+        }   
+
+}
 }

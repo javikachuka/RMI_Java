@@ -35,7 +35,7 @@ public class Sistema {
             //Registramos el puerto
             LocateRegistry.createRegistry(15000);
             //Indicamos como se accede a nuestra clase
-            Naming.rebind("//localhost:15000/almacenamiento", almacenamiento);
+            Naming.rebind("//10.0.0.20:15000/almacenamiento", almacenamiento);
         } else if (args.length == 2) {
 
             String ip = args[0];
@@ -51,12 +51,11 @@ public class Sistema {
             try {
                 //Registramos el puerto
                 LocateRegistry.createRegistry(puerto);
-                
                 while (true){
                     AlmacenamientoInterface servidorPrincipal = (AlmacenamientoInterface) 
-                    Naming.lookup("//"+ip+":15000"+"/almacenamiento");
+                    Naming.lookup("//10.0.0.20:15000"+"/almacenamiento");
                      //Indicamos como se accede a nuestra clase
-                    Naming.rebind("//localhost:"+puerto+"/almacenamiento", servidorPrincipal);
+                    Naming.rebind("//"+ip+":"+puerto+"/almacenamiento", servidorPrincipal);
                 }
                 
             } catch (Exception e) {

@@ -16,4 +16,6 @@ public interface AlmacenamientoInterface extends Remote {
     public String guardar(String clave, String valor) throws RemoteException;
     public String obtener(String clave) throws RemoteException ;
     public String eliminar(String clave) throws RemoteException ;
+    public void agregarNodo(String ip, int puerto) throws RemoteException ;
+    public void eliminarNodo(String ip, int puerto) throws RemoteException ;
 }

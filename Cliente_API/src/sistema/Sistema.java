@@ -25,7 +25,7 @@ public class Sistema {
                 puerto = Integer.parseInt(args[1]);
                 //Estamos accediendo remotamente a almacenamiento que esta del lado del servidor
                 AlmacenamientoInterface servidor = (AlmacenamientoInterface)
-                Naming.lookup("//"+ip+":"+puerto+"/almacenamiento");
+                Naming.lookup("//"+ip+":"+puerto+"");
 
                 //Se crean dos elementos
                 System.out.println(servidor.guardar("Clave1", "Valor1"));

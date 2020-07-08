@@ -21,26 +21,22 @@ public class Sistema {
 
     public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException {
         /*
-            si no recibo argumentos 
-                //10.0.0.20:15000/
-
-            si recibo argumentos
-                //10.0.0.20:+args[x]+/
+            ¿Que argumentos recibo?
+            Recibo ip y puerto del nodo
+        
+            Tengo que decidir si crear y volver a acomodar el sistema de almacenamiento
+            o nada
+        
+            LocateRegistry.getRegistry(String host, int port)
+        
+            
          */
 
-        if (args.length == 0) {
-            //creamos la interfaz
-            Almacenamiento almacenamiento = new Almacenamiento();
-
-            //Registramos el puerto
-            LocateRegistry.createRegistry(15000);
-            //Indicamos como se accede a nuestra clase
-            Naming.rebind("//10.0.0.20:15000/almacenamiento", almacenamiento);
-        } else if (args.length == 2) {
-
+        if (args.length == 2) {
+            
             String ip = args[0];
             int puerto = 0;
-
+            System.setProperty("java.rmi.server.hostname",ip);
             try {
                 puerto = Integer.parseInt(args[1]);
             } catch (Exception e) {
@@ -50,13 +46,12 @@ public class Sistema {
             //Indicamos como se accede a nuestra clase
             try {
                 //Registramos el puerto
-                LocateRegistry.createRegistry(puerto);
-                while (true){
-                    AlmacenamientoInterface servidorPrincipal = (AlmacenamientoInterface) 
-                    Naming.lookup("//10.0.0.20:15000"+"/almacenamiento");
-                     //Indicamos como se accede a nuestra clase
-                    Naming.rebind("//"+ip+":"+puerto+"/almacenamiento", servidorPrincipal);
-                }
+//                while (true){
+//                    AlmacenamientoInterface servidorPrincipal = (AlmacenamientoInterface) 
+//                    Naming.lookup("//172.19.0.2:15000"+"");
+//                     //Indicamos como se accede a nuestra clase
+//                    Naming.rebind("//"+ip+":"+puerto+"", servidorPrincipal);
+//                }
                 
             } catch (Exception e) {
                 System.out.println("3 - instancia principal caída.");
@@ -66,7 +61,7 @@ public class Sistema {
             
         } else {
             
-            System.out.println("Error en los argumentos");
+            System.out.println("Error en los argumentos, debe indicar un ip y un puerto");
             System.exit(0);
         }
 
